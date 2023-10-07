@@ -1,0 +1,25 @@
+Package: template
+Title: Data wrangling using R for researchers who do not use R
+Version: 0.1
+Authors@R:
+  c(
+    person(
+        given = "Emily", 
+        family = "Nordmannn", 
+        role = c("aut", "cre"), 
+        email = "emilynordmann@gmail.com", 
+        comment = c(ORCID = "0000-0002-0806-1081")
+    )
+  )
+License: CC BY 4.0 + LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    webexercises,
+    glossary (>= 0.0.0.9001)
+Remotes: 
+    psyteachr/glossary
+Depends: 
+    tidyverse
