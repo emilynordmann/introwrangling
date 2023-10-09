@@ -37,3 +37,15 @@ The dataset and code used in this tutorial is available at INSERT OSF URL whilst
 Please cite both the preprint and interactive online tutorial as:
 
 Nordmann, E., Mackay, J.M., Banas, K., Cleland A.A., & DeBruine, L. (2022). Data wrangling using R, for researchers who don't use R.
+
+## Author contributions
+
+EN: Conceptualization, Software, Resources, Writing - Original Draft, Writing - Review & Editing, Project administration
+JM:
+KB:
+AAC:
+LD:
+
+## Statement on use of AI
+
+ChatGPT 4.0 was used to assist in portions of writing this tutorial. Primarily, ChatGPT was used to assist in writing the code to simulate data. Additionally, we used ChatGPT to proof-read and check for typos in code as well as to provide feedback and suggest alternative approaches to coding.

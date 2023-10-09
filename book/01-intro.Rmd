@@ -1,10 +1,10 @@
 # Introduction
 
-> I have adapted this from the intro to data viz
+Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled by increasing recognition for the need for research in all fields to be transparent and reproducible (CITATIONS). In Nordmann et al. (2022), we provided an introductory tutorial to data visualization in R to help support researchers unfamiliar with R to produce reproducible visualisations that increase transparency regarding the true nature of the raw data, rather than relying on aggregated plots such as bar charts. 
 
-Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled by increasing recognition for the needed for research in all fields to be transparent and reproducible (CITATIONS). In Nordmann et al., (2022) we provided an introductory tutorial to data visualization in R to help support researchers to produce reproducible visualisations that increase transparency regarding the true nature of the raw data, rather than relying on aggregated plots such as bar charts. 
+In this tutorial, we focus on data wrangling. Data wrangling is the art of cleaning, structuring, and transforming raw data into a desired format so that further analysis or visualization can be performed (GET DEFINTION CITATION). Although data wrangling is the first and most essential step in any analysis pipeline, it can often prove the most difficult in part due to the maxim that "all tidy datasets are tidy in the same way, all messy datasets are messy in their own way" (Whickam, tidy data paper CHECK QUOTE IS ACTUALLY THOSE WORDS). Indeed, the rationale for the approach taken by Nordmann et al., (2022) was that although data visualisation is not the first step of the analysis pipeline, it is perhaps the most accessible for encouraging researchers to learn to code. In recognition of this difficulty, Nordmann et al. encourage performing pre-processing steps in point-and-click software if it allowed researchers to move to visualizing their data using R. 
 
-Data wrangling is the art of cleaning, structuring, and transforming raw data into a desired format so that further analysis or visualization can be performed (GET DEFINTION CITATION). Although data wrangling is the first and most essential step in any analysis pipeline, it can often prove the most difficult in part due to the maxim that "all tidy datasets are tidy in the same way, all messy datasets are messy in their own way" (Whickam, tidy data paper CHECK QUOTE IS ACTUALLY THOSE WORDS). Indeed, the rationale for Nordmann et al., (2022) was that although data visualisation is not the first step of the analysis pipeline, it is perhaps the most accessible for encouraging researchers to learn to in code. In recognition of this difficulty, we went as far as to encourage performing pre-processing steps in point-and-click software if it allowed researchers to move to visualizing their data using R. In this follow-up tutorial, we build on the experience (and hopefully confidence) established through our first tutorial to help support the development of skills related to this more difficult, yet arguably more crucial process. The current tutorial is stand-alone and can be completed without working through Nordmann et al., (2022), although as a set they may prove particularly useful.
+In this follow-up tutorial, we build on the experience and confidence established through Nordmann et al. (2022) to help support the development of skills related to this more difficult, yet arguably more crucial step. The current tutorial is stand-alone and can be completed without working through Nordmann et al. (2022), although as a set they may prove particularly useful. Parts of this tutorial concerning initial set-up steps have been adapted from Nordmann et al. (2022) to ensure consistency. 
 
 ## Why R for data wrangling?
 
@@ -22,7 +22,7 @@ This tutorial contains three components.
 * An online version of the tutorial published at https://psyteachr.github.io/introdatawrangling/ that may be easier to copy and paste code from and that also provides the optional activity solutions as well as additional appendices, including code tutorials for advanced plots beyond the scope of this paper and links to additional resources.
 * An Open Science Framework repository published at INSERT OSF LINK that contains the simulated dataset (see below), preprint, and R Markdown workbook.
 
-## Simluated dataset
+## Simulated dataset
 
 In Nordmann et al. (2022), we used a simulated dataset for a lexical decision task in which 100 participants had to decide whether a presented word was a real word or a non-word. This dataset was cleaned and aggregated, that is, for each participant there was a single aggregated reaction time and a single aggregated accuracy score for each condition that averaged over a number of trials.
 
@@ -30,13 +30,31 @@ In the current tutorial, our simulated data represents the raw data that would h
 
 There are 102 files in total.
 
-* `all_words.csv` has three variables: `word` (the word that is presented in each trial), `type` (whether the word was a real word or non-word), and `trial_type` (practice trial or experimental trial). There are 111 rows of data, a header row with the variable names, 100 experimental trials (50 real words and 50 non-words), and 10 practice trials (5 real words and 5 non-words).
+* `all_words.csv` has three variables: `Word` (the word that is presented in each trial), `Word type` (whether the word was a real word or non-word), and `trial_type` (practice trial or experimental trial). There are 111 rows of data, a header row with the variable names, 100 experimental trials (50 real words and 50 non-words), and 10 practice trials (5 real words and 5 non-words).
 
-* `participant_demographics` has three variables: `id` an anonymous ID number from 1 to 100, `age` in whole years, and `language` (1 = monolingual, 2 = bilingual).
+* `participant_demographics` has three variables: `ID` an anonymous ID number from 1 to 100, `age` in whole years, and `language` (1 = monolingual, 2 = bilingual). There are 100 rows of data,one for each participant.
 
-* The folder `ppt_data` then contains 100 separate .csv files, one for each participant, named in the format `participant_1_trials.csv`. Each file contains six variables; `id` (the participant's anonymous ID number), `word` (the word that is presented in each trial), `accuracy` (whether the participant correctly identified if the word was real or not with two values `correct` or `incorrect`), `rt` (the participant's reaction time to respond to each trial in milliseconds), `trial_type` (practice trial or experimental trial), and `trial_number` (the order each trial was presented in, from 1 to 110).
+* The folder `trial_data` then contains 100 separate .csv files, one for each participant, named in the format `participant_1_trials.csv`. Each file contains six variables; `ID` (the participant's anonymous ID number), `word` (the word that is presented in each trial), `accuracy` (whether the participant correctly identified if the word was real or not with two values `correct` or `incorrect`), `rt` (the participant's reaction time to respond to each trial in milliseconds), `trial_type` (practice trial or experimental trial), and `trial_number` (the order each trial was presented in, from 1 to 110).
 
+## Setting up R and RStudio
 
+We strongly encourage the use of RStudio to write code in R. R is the programming language whilst RStudio is an *integrated development environment* that makes working with R easier. More information on installing both R and RStudio can be found in the additional resources.
+
+Projects are a useful way of keeping all your code, data, and output in one place. To create a new project, open RStudio and click `File - New Project - New Directory - New Project`. You will be prompted to give the project a name, and select a location for where to store the project on your computer. Once you have done this, click `Create Project`. Download the simulated dataset and code tutorial Rmd file from [the online materials](INSERT OSD LINK){target="_blank"} and then move them to this folder. The files pane on the bottom right of RStudio should now display this folder and the files it contains - this is known as your *working directory* and it is where R will look for any data you wish to import and where it will save any output you create.
+
+This tutorial will require you to use the packages in the `tidyverse` collection. Additionally, we will also require use of `rio` and `janitor`. To install these packages, copy and paste the below code into the console (the left hand pane) and press enter to execute the code.
+
+```{r packages, eval = FALSE}
+# only run in the console, never put this in a script 
+package_list <- c("tidyverse", "rio", "janitor")
+install.packages(package_list)
+```
+
+R Markdown is a dynamic format that allows you to combine text and code into one reproducible document. The R Markdown workbook available in the [online materials](INSERT OSF LINK{target="_blank"} contains all the code in this tutorial and there is more information and links to additional resources for how to use R Markdown for reproducible reports in the additional resources. 
+
+The reason that the above code is not included in the workbook is that every time you run the install command code it will install the latest version of the package. Leaving this code in your script can lead you to unintentionally install a package update you didn't want. For this reason, avoid including install code in any script or Markdown document. 
+
+For more information on how to use R with RStudio, please see the additional resources in the online appendices.
 
 
 

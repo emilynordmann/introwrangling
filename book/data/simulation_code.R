@@ -46,12 +46,14 @@ practice_nonwords <- tibble(
 )
 
 # Combine all words and nonwords into one file
-all_words = bind_rows(main_words, main_nonwords, practice_words, practice_nonwords)
+all_words = bind_rows(main_words, main_nonwords, practice_words, practice_nonwords) %>%
+  rename("Word" = "word",
+         "Word type" = "type")
 write.csv(all_words, "all_words.csv", row.names = FALSE)
 
 # Initialize an empty data frame to store demographic data
 demographics_df <- data.frame(
-  id = integer(),
+  ID = integer(),
   age = integer(),
   language = integer()
 )
@@ -71,12 +73,12 @@ simulate_participant_data <- function(participant_id, age, language, n_trials = 
   # Combine into a data frame for main trials
   df_main = bind_rows(sampled_words, sampled_nonwords) %>% 
     mutate(
-      id = participant_id,
+      ID = participant_id,
       accuracy = sample(acc, 2 * n_trials),
       rt = sample(rt, 2 * n_trials),
       trial_type = "experimental"
     ) %>% 
-    select(word, id, accuracy, rt, trial_type)
+    select(word, ID, accuracy, rt, trial_type)
   
   # Randomize main trials
   df_main = df_main[sample(nrow(df_main)), ]
@@ -88,12 +90,12 @@ simulate_participant_data <- function(participant_id, age, language, n_trials = 
   # Combine into a data frame for practice trials
   df_practice = bind_rows(sampled_practice_words, sampled_practice_nonwords) %>% 
     mutate(
-      id = participant_id,
+      ID = participant_id,
       accuracy = sample(acc, 10),
       rt = sample(rt, 10),
       trial_type = "practice"
     ) %>% 
-    select(word, id, accuracy, rt, trial_type)
+    select(word, ID, accuracy, rt, trial_type)
   
   # Combine practice and main trials
   df = bind_rows(df_practice, df_main)
@@ -119,7 +121,7 @@ for (i in 1:100) {
   language = sample(1:2, 1)
   
   # Add demographic data to the demographics data frame
-  demographics_df <- rbind(demographics_df, data.frame(id = i, age = age, language = language))
+  demographics_df <- rbind(demographics_df, data.frame(ID = i, age = age, language = language))
   
   # Simulate trial data
   simulate_participant_data(i, age, language)

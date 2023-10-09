@@ -30,9 +30,9 @@
 <link rel="stylesheet" href="include/psyteachr.css">
 <link rel="stylesheet" href="include/webex.css">
 <link rel="stylesheet" href="include/style.css">
-<meta name="description" content="I have adapted this from the intro to data viz Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled...">
-<meta property="og:description" content="I have adapted this from the intro to data viz Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled...">
-<meta name="twitter:description" content="I have adapted this from the intro to data viz Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled...">
+<meta name="description" content="Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled by increasing recognition for the need for...">
+<meta property="og:description" content="Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled by increasing recognition for the need for...">
+<meta name="twitter:description" content="Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled by increasing recognition for the need for...">
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -56,6 +56,7 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html">Overview</a></li>
 <li><a class="active" href="introduction.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="reading-and-checking-data.html"><span class="header-section-number">2</span> Reading and checking data</a></li>
 <li class="book-part">Appendices</li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
@@ -69,11 +70,9 @@
 <h1>
 <span class="header-section-number">1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"><i class="fas fa-link"></i></a>
 </h1>
-<blockquote>
-<p>I have adapted this from the intro to data viz</p>
-</blockquote>
-<p>Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled by increasing recognition for the needed for research in all fields to be transparent and reproducible (CITATIONS). In Nordmann et al., (2022) we provided an introductory tutorial to data visualization in R to help support researchers to produce reproducible visualisations that increase transparency regarding the true nature of the raw data, rather than relying on aggregated plots such as bar charts.</p>
-<p>Data wrangling is the art of cleaning, structuring, and transforming raw data into a desired format so that further analysis or visualization can be performed (GET DEFINTION CITATION). Although data wrangling is the first and most essential step in any analysis pipeline, it can often prove the most difficult in part due to the maxim that "all tidy datasets are tidy in the same way, all messy datasets are messy in their own way" (Whickam, tidy data paper CHECK QUOTE IS ACTUALLY THOSE WORDS). Indeed, the rationale for Nordmann et al., (2022) was that although data visualisation is not the first step of the analysis pipeline, it is perhaps the most accessible for encouraging researchers to learn to in code. In recognition of this difficulty, we went as far as to encourage performing pre-processing steps in point-and-click software if it allowed researchers to move to visualizing their data using R. In this follow-up tutorial, we build on the experience (and hopefully confidence) established through our first tutorial to help support the development of skills related to this more difficult, yet arguably more crucial process. The current tutorial is stand-alone and can be completed without working through Nordmann et al., (2022), although as a set they may prove particularly useful.</p>
+<p>Use of the programming language R (R Core Team, 2022) for data processing and statistical analysis by researchers continues to grow, in part fueled by increasing recognition for the need for research in all fields to be transparent and reproducible (CITATIONS). In Nordmann et al. (2022), we provided an introductory tutorial to data visualization in R to help support researchers unfamiliar with R to produce reproducible visualisations that increase transparency regarding the true nature of the raw data, rather than relying on aggregated plots such as bar charts.</p>
+<p>In this tutorial, we focus on data wrangling. Data wrangling is the art of cleaning, structuring, and transforming raw data into a desired format so that further analysis or visualization can be performed (GET DEFINTION CITATION). Although data wrangling is the first and most essential step in any analysis pipeline, it can often prove the most difficult in part due to the maxim that "all tidy datasets are tidy in the same way, all messy datasets are messy in their own way" (Whickam, tidy data paper CHECK QUOTE IS ACTUALLY THOSE WORDS). Indeed, the rationale for the approach taken by Nordmann et al., (2022) was that although data visualisation is not the first step of the analysis pipeline, it is perhaps the most accessible for encouraging researchers to learn to code. In recognition of this difficulty, Nordmann et al. encourage performing pre-processing steps in point-and-click software if it allowed researchers to move to visualizing their data using R.</p>
+<p>In this follow-up tutorial, we build on the experience and confidence established through Nordmann et al. (2022) to help support the development of skills related to this more difficult, yet arguably more crucial step. The current tutorial is stand-alone and can be completed without working through Nordmann et al. (2022), although as a set they may prove particularly useful. Parts of this tutorial concerning initial set-up steps have been adapted from Nordmann et al. (2022) to ensure consistency.</p>
 <div id="why-r-for-data-wrangling" class="section level2" number="1.1">
 <h2>
 <span class="header-section-number">1.1</span> Why R for data wrangling?<a class="anchor" aria-label="anchor" href="#why-r-for-data-wrangling"><i class="fas fa-link"></i></a>
@@ -97,42 +96,34 @@
 <li>An Open Science Framework repository published at INSERT OSF LINK that contains the simulated dataset (see below), preprint, and R Markdown workbook.</li>
 </ul>
 </div>
-<div id="simluated-dataset" class="section level2" number="1.3">
+<div id="simulated-dataset" class="section level2" number="1.3">
 <h2>
-<span class="header-section-number">1.3</span> Simluated dataset<a class="anchor" aria-label="anchor" href="#simluated-dataset"><i class="fas fa-link"></i></a>
+<span class="header-section-number">1.3</span> Simulated dataset<a class="anchor" aria-label="anchor" href="#simulated-dataset"><i class="fas fa-link"></i></a>
 </h2>
 <p>In Nordmann et al. (2022), we used a simulated dataset for a lexical decision task in which 100 participants had to decide whether a presented word was a real word or a non-word. This dataset was cleaned and aggregated, that is, for each participant there was a single aggregated reaction time and a single aggregated accuracy score for each condition that averaged over a number of trials.</p>
 <p>In the current tutorial, our simulated data represents the raw data that would have been used to create the aggregated data from Nordmann et al. (2022) (although please note that it is a simulation of a simulation, i.e., the raw data provided in this tutorial will not reproduce the same means as in the previous tutorial UNLESS LISA CAN DO SOMETHING WITH MY CODE TO MAKE THIS HAPPEN).</p>
 <p>There are 102 files in total.</p>
 <ul>
-<li><p><code>all_words.csv</code> has three variables: <code>word</code> (the word that is presented in each trial), <code>type</code> (whether the word was a real word or non-word), and <code>trial_type</code> (practice trial or experimental trial). There are 111 rows of data, a header row with the variable names, 100 experimental trials (50 real words and 50 non-words), and 10 practice trials (5 real words and 5 non-words).</p></li>
-<li><p><code>participant_demographics</code> has three variables: <code>id</code> an anonymous ID number from 1 to 100, <code>age</code> in whole years, and <code>language</code> (1 = monolingual, 2 = bilingual).</p></li>
-<li><p>The folder <code>ppt_data</code> then contains 100 separate .csv files, one for each participant, named in the format <code>participant_1_trials.csv</code>. Each file contains six variables; <code>id</code> (the participant's anonymous ID number), <code>word</code> (the word that is presented in each trial), <code>accuracy</code> (whether the participant correctly identified if the word was real or not with two values <code>correct</code> or <code>incorrect</code>), <code>rt</code> (the participant's reaction time to respond to each trial in milliseconds), <code>trial_type</code> (practice trial or experimental trial), and <code>trial_number</code> (the order each trial was presented in, from 1 to 110).</p></li>
+<li><p><code>all_words.csv</code> has three variables: <code>Word</code> (the word that is presented in each trial), <code>Word type</code> (whether the word was a real word or non-word), and <code>trial_type</code> (practice trial or experimental trial). There are 111 rows of data, a header row with the variable names, 100 experimental trials (50 real words and 50 non-words), and 10 practice trials (5 real words and 5 non-words).</p></li>
+<li><p><code>participant_demographics</code> has three variables: <code>ID</code> an anonymous ID number from 1 to 100, <code>age</code> in whole years, and <code>language</code> (1 = monolingual, 2 = bilingual). There are 100 rows of data,one for each participant.</p></li>
+<li><p>The folder <code>trial_data</code> then contains 100 separate .csv files, one for each participant, named in the format <code>participant_1_trials.csv</code>. Each file contains six variables; <code>ID</code> (the participant's anonymous ID number), <code>word</code> (the word that is presented in each trial), <code>accuracy</code> (whether the participant correctly identified if the word was real or not with two values <code>correct</code> or <code>incorrect</code>), <code>rt</code> (the participant's reaction time to respond to each trial in milliseconds), <code>trial_type</code> (practice trial or experimental trial), and <code>trial_number</code> (the order each trial was presented in, from 1 to 110).</p></li>
 </ul>
 </div>
-</div>
+<div id="setting-up-r-and-rstudio" class="section level2" number="1.4">
+<h2>
+<span class="header-section-number">1.4</span> Setting up R and RStudio<a class="anchor" aria-label="anchor" href="#setting-up-r-and-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>We strongly encourage the use of RStudio to write code in R. R is the programming language whilst RStudio is an <em>integrated development environment</em> that makes working with R easier. More information on installing both R and RStudio can be found in the additional resources.</p>
+<p>Projects are a useful way of keeping all your code, data, and output in one place. To create a new project, open RStudio and click <code>File - New Project - New Directory - New Project</code>. You will be prompted to give the project a name, and select a location for where to store the project on your computer. Once you have done this, click <code>Create Project</code>. Download the simulated dataset and code tutorial Rmd file from <a href="INSERT%20OSD%20LINK" target="_blank">the online materials</a> and then move them to this folder. The files pane on the bottom right of RStudio should now display this folder and the files it contains - this is known as your <em>working directory</em> and it is where R will look for any data you wish to import and where it will save any output you create.</p>
+<p>This tutorial will require you to use the packages in the <code>tidyverse</code> collection. Additionally, we will also require use of <code>rio</code> and <code>janitor</code>. To install these packages, copy and paste the below code into the console (the left hand pane) and press enter to execute the code.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># only run in the console, never put this in a script </span></span>
+<span><span class="va">package_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"tidyverse"</span>, <span class="st">"rio"</span>, <span class="st">"janitor"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="va">package_list</span><span class="op">)</span></span></code></pre></div>
+<p>R Markdown is a dynamic format that allows you to combine text and code into one reproducible document. The R Markdown workbook available in the [online materials](INSERT OSF LINK{target="_blank"} contains all the code in this tutorial and there is more information and links to additional resources for how to use R Markdown for reproducible reports in the additional resources.</p>
+<p>The reason that the above code is not included in the workbook is that every time you run the install command code it will install the latest version of the package. Leaving this code in your script can lead you to unintentionally install a package update you didn't want. For this reason, avoid including install code in any script or Markdown document.</p>
+<p>For more information on how to use R with RStudio, please see the additional resources in the online appendices.</p>
 
-
-
-<div class="chapter-nav">
-<div class="prev"><a href="index.html">Overview</a></div>
-<div class="next"><a href="references.html">References</a></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-<li><a class="nav-link" href="#why-r-for-data-wrangling"><span class="header-section-number">1.1</span> Why R for data wrangling?</a></li>
-<li><a class="nav-link" href="#tutorial-components"><span class="header-section-number">1.2</span> Tutorial components</a></li>
-<li><a class="nav-link" href="#simluated-dataset"><span class="header-section-number">1.3</span> Simluated dataset</a></li>
-</ul>
-
-      <div class="book-extra">
-        <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/emilynordmann/introwrangling/blob/master/book/01-intro.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/emilynordmann/introwrangling/edit/master/book/01-intro.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
-        </ul>
-</div>
-    </nav>
 </div>
 </div>
 <script>
@@ -336,15 +327,35 @@ $( document ).ready(function() {
   move_sidebar();
   window.onresize = move_sidebar;
 });
-</script>
+</script><div class="chapter-nav">
+<div class="prev"><a href="index.html">Overview</a></div>
+<div class="next"><a href="reading-and-checking-data.html"><span class="header-section-number">2</span> Reading and checking data</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="nav-link" href="#why-r-for-data-wrangling"><span class="header-section-number">1.1</span> Why R for data wrangling?</a></li>
+<li><a class="nav-link" href="#tutorial-components"><span class="header-section-number">1.2</span> Tutorial components</a></li>
+<li><a class="nav-link" href="#simulated-dataset"><span class="header-section-number">1.3</span> Simulated dataset</a></li>
+<li><a class="nav-link" href="#setting-up-r-and-rstudio"><span class="header-section-number">1.4</span> Setting up R and RStudio</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/emilynordmann/introwrangling/blob/master/book/01-intro.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/emilynordmann/introwrangling/edit/master/book/01-intro.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
 
 </div>
- <!-- .container -->
+</div> <!-- .container -->
 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Data wrangling using R for researchers who do not use R</strong>" was written by Emily Nordmann, Jill MacKay, Kasia Banas, Sandie Cleland, Lisa DeBruine. It was last built on 2023-10-07.</p>
+    <p>"<strong>Data wrangling using R for researchers who do not use R</strong>" was written by Emily Nordmann, Jill MacKay, Kasia Banas, Sandie Cleland, Lisa DeBruine. It was last built on 2023-10-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

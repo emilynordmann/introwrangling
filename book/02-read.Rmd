@@ -1,0 +1,170 @@
+
+# Reading and checking data
+
+```{r echo = FALSE, message = FALSE, warning= FALSE}
+library(tidyverse)
+library(rio)
+library(janitor)
+```
+
+
+## Loading packages
+
+To load the packages that have the functions we need for this tutorial, use the `library()` function. Whilst you only need to install packages once, you need to load any packages you want to use with `library()` every time you start R or start a new session. When you load the `tidyverse`, you actually load several separate packages that are all part of the same collection and have been designed to work together. R will produce a message that tells you the names of the packages that have been loaded.
+
+```{r eval = FALSE}
+library(tidyverse)
+library(rio)
+library(janitor)
+```
+
+## Importing data
+
+Now we have loaded the packages we need, we can read in the data files. As is often the case when coding in R, there are many different functions and packages one can use to load in data files. There are multiple functions that can be used to read in specific types of files and it is useful to use these if you have particularly difficult datasets where you may need to wrangle the data in ways that are very specific to the file type.
+
+For example, `readr::read_tsv()` and `readr::read_csv()` can be used to import `.tsv` and `.csv` files using the `readr` package that is loaded as part of the `tidyverse`, whilst `readxl::read_excel()` is used to read `.xlsx` files and `haven::read_sav()` can be used to import `.sav` files from SPSS. 
+
+However, an easier alternative for when you have data files that are relatively straightforward, is to use the `import` function from the `rio` package. `import` handle all of the above file types and many more - in the console, type `?rio::import` to see the help documentation with a list of all file types it can handle. 
+
+To load `all_words.csv` and `participant_demographics.csv`, we use the `import` function:
+
+```{r}
+all_words <- import("data/all_words.csv")
+ppt_demo <- import("data/participant_demographics.csv")
+```
+
+This code has created two objects `all_words` and `ppt_demo` into which you have read the data from the two files. This object will appear in the environment pane in the top right. Note that the name of the data file must be in quotation marks and the file extension (`.csv`) must also be included. If you receive the error `…does not exist in current working directory` it is highly likely that you have made a typo in the file name (remember R is case sensitive), have forgotten to include the file extension `.csv`, or that the data file you want to load is not stored in your project folder. If you get the error `could not find function` it means you have either not loaded the correct package (a common beginner error is to write the code, but not run it), or you have made a typo in the function name.
+
+Loading the individual participant trial data requires a slightly different approach. We could write out the same code 100 times, but that would be a waste of time and would likely lead to human error. Instead, we can use two functions to first create a list of all the files we want, load in that list, and then combine the files into a single data frame.
+
+The first step is to create an object named `file_list` using the function `list.files`. The `path` is where the data is stored, whilst the `pattern` is the rule the function should use to determine which files to list. There are multiple pattern options that would achieve the same outcome:
+
+* `pattern = "participant_*` lists all files starts with the string `participant_`. The asterisk `*` is a wildcard character that can match any sequence of characters, so as long as it starts with `participant_` anything can come after it and it will be included.
+* `pattern = "*.csv` lists all files that end with `.csv` and have any name before that.
+* You can also remove the pattern argument which will just list all the files in the directory.
+
+In our case, all three will work but which one you choose will depend upon the organisation and naming conventions of your data.
+
+```{r}
+# List all files in the directory starting with `participant_`
+file_list <- list.files(path = "book/data/trial_data", 
+                        pattern = "participant_*", 
+                        full.names = TRUE)
+
+# List all files in the directory ending with `csv`
+file_list <- list.files(path = "book/data/trial_data", 
+                        pattern = "*.csv", 
+                        full.names = TRUE)
+
+# List all files in the directory
+file_list <- list.files(path = "book/data/trial_data", 
+                        full.names = TRUE)
+
+```
+
+Next, we can use the `map_df()` function from the `tidyverse`. `map_df()` applies a function to each element of a list and then combines the results into a single data frame. In this case, it applies the function `import()` to each file listed in `file_list`. If you needed to use a specific function like `read_csv()` or `read_excel()`, you could replace `import()` with the function required.
+
+```{r}
+# Read and combine all files into a single data frame
+all_data <- file_list |>
+  map_df(~import(.))
+```
+
+## The pipe
+
+The above code uses the `|>` operator, otherwise known as the pipe.  It takes the output from the left-hand side and uses it as the input for the expression on the right-hand side but may more usefully be translated as "and then". For example, the above code can be read as:
+
+* Start with the object `file_list` *and then*;
+* Use `map_df()` to apply the function `import` to each file in it.
+
+This pipe was introduced in R version 4.1.0 and is functionally very similar to the `%>%` pipe which is part of the `tidyverse` and was used in Nordmann et al. (2022). The reason that we have switched to using the Base R pipe is that it does not require you to load the `tidyverse` (or any other package) to use and so is more generalisable to different approaches to coding. 
+
+## Checking your data
+
+Whenever you import or create an object, the first thing you should do is check it to help identify what type of cleaning and processing you will need to conduct as, unless you are working with sanitized data, it is highly likely you will need to do some type of cleaning.
+
+### Variable names
+
+First, let's have a look at the variable names in each file. R is case sensitive and it also doesn't like spaces in file names. As a researcher you are not always in control of how your data is entered, however, it is useful to keep the following conventions in mind:
+
+* Variable names should be descriptive enough to convey their purpose or the data they contain and they should be concise but not so short that they become cryptic. For instance, `a` or `tmp` might be too vague, but `age` or `temp_data` are more descriptive.
+* It is common to use all lowercase letters for variable names, if nothing else, it means you don't have to remember when and where you used a capital letter.
+* R does not like spaces so best practice is to separate words with underscores which is known as "snake_case", e.g., `total_sales`. Although dots are allowed in variable names in R (e.g., `total.sales`), they can be confusing because dots have a specific meaning in some other uses. Therefore, it is better to avoid them in variable names.
+* Do not use names for variables or objects that are reserved words in R, like `if`, `else`, `repeat`, `while`, `function`, etc. A common one to avoid is that many functions have an argument named `data` so name your objects `dat` or `my_data`, rather than just `data`.
+* In addition to spaces and reserved names, avoid using special characters like @, #, $, %, ^, &, *, etc., in variable names as they can be misinterpreted by R.
+* Whatever naming convention you choose, be consistent throughout your code. Consistency helps in making the code more readable and maintainable.
+
+### Data checking functions
+
+There are a number of functions you can use to check your data but two common useful ones are `str()` and `summary()`. 
+
+* `str()` will print out the structure of your data file with a new row for each variable and is a useful function to keep in mind if you have a dataset with a large number of variables. `str()` will give you the name of each variable (e.g., `Word`), the variable type (in this case all variables are `chr` or character type variables), and then display the first few observations of each variable.
+
+```{r}
+str(all_words)
+str(ppt_demo)
+
+```
+
+* `summary()` also provides a list of all variables, although rather than providing the first few observations, gives summary statistics in the form of descriptive statistics.
+
+```{r}
+summary(all_data)
+```
+
+
+### Cleaning variable names
+
+We can see from both `str()` and `summary()` that there are a few issues with our variable names. First, there is a mix of lowercase and capital letters (e.g., `Word`, `ID`) and `Word type` also contains a space.
+
+An incredibly useful function that should become part of your default data import process is `janitor::clean_names()`. This function transforms variable names so that they are all lowercase, are all unique in the dataset, and only contain characters, numbers, and letters. Using the pipe `|>`, we can add on this function to the code that imports the data.
+
+```{r}
+# load in the data and then clean the variable names
+
+all_words <- import("data/all_words.csv") |>
+  clean_names()
+
+ppt_demo <- import("data/participant_demographics.csv")|>
+  clean_names()
+
+all_data <- file_list |>
+  map_df(~import(.))|>
+  clean_names()
+```
+
+If you run `str()` on each object, you will now see that `ID` has become `id`, `Word type` has become `word_type`, and `Word` has become `word`. Ensuring that your variable names are consistent and easy to work with from the first step will make data wrangling much simpler and is not a step that should be overlooked. 
+
+## Data types
+
+Data can be numbers, words, true/false values or combinations of these. The basic data types in R are: numeric, character, and logical, as well as the special classes of factor and date/times. Factors are a particularly important data type for research data as they represent categorical variables, for example, experimental independent variables (such as the type of word in the current example) or demographic variables (such as language group that has two levels, monolingual and bilingual).
+
+If you ever want to know the data type of a specific variable, you can use the `typeof` function. The notation used below can be read as `object$variable`, that is, return the type of data the variable `langauge` is from the object `ppt_demo`.
+
+```{r}
+typeof(ppt_demo$language)
+```
+
+When you load in data, R will make an educated guess as to what type of data each variable is, and you can see what types it has assigned to all variables in an object by running `str()` as above:
+
+```{r eval = FALSE}
+str(all_words)
+str(ppt_demo)
+str(all_data)
+```
+
+Let's go through each variable in turn:
+
+* `word` is imported as a character variable. This is correct because it is text data and doesn't represent any distinct categories; each word is different.
+* `word_type` is also imported as a character variable. However, this text data represents two discrete categories, `word` and `nonword` and as such, it really should be a factor.
+* `trial_type` also suffers from the same issue as `word_type`, it's a category with two levels `practice` and `experimental`.
+* `id` is imported as an integer, or a numeric type. This isn't correct in that whilst it's a number, this number is being used a label, it has no numerical properties (participant 2 is not double participant 1). 
+* `age` is imported as an integer and thankfully, this is actually correct and needs no further action.
+* `language` is imported as an integer. Language is coded as 1 = monolingual and 2= bilingual but R doesn't know this, all it can see is numbers. This will cause serious issues further down the analysis pipeline unless it if fixed.
+* `accuracy` is imported as a character but should be a factor as it represents two distinct categories `correct` and `incorrect`.
+* `rt` is imported as numeric and is correct.
+* `trial_number` is imported as a integer and is correct.
+
+
+
+

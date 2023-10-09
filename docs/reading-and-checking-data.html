@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Reading and checking data | Data wrangling using R for researchers who do not use R</title>
+<meta name="author" content="Emily Nordmann, Jill MacKay, Kasia Banas, Sandie Cleland, Lisa DeBruine">
+<meta name="generator" content="bookdown 0.34 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Reading and checking data | Data wrangling using R for researchers who do not use R">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://emilynordmann.github.io/introwrangling/reading-and-checking-data.html">
+<meta property="og:image" content="https://emilynordmann.github.io/introwrangling/images/logos/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Reading and checking data | Data wrangling using R for researchers who do not use R">
+<meta name="twitter:image" content="https://emilynordmann.github.io/introwrangling/images/logos/logo.png">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6NP3MF25W3"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-6NP3MF25W3');
+    </script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="include/psyteachr.css">
+<link rel="stylesheet" href="include/webex.css">
+<link rel="stylesheet" href="include/style.css">
+<meta name="description" content="2.1 Loading packages To load the packages that have the functions we need for this tutorial, use the library() function. Whilst you only need to install packages once, you need to load any...">
+<meta property="og:description" content="2.1 Loading packages To load the packages that have the functions we need for this tutorial, use the library() function. Whilst you only need to install packages once, you need to load any...">
+<meta name="twitter:description" content="2.1 Loading packages To load the packages that have the functions we need for this tutorial, use the library() function. Whilst you only need to install packages once, you need to load any...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Data wrangling using R for researchers who do not use R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Overview</a></li>
+<li><a class="" href="introduction.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="active" href="reading-and-checking-data.html"><span class="header-section-number">2</span> Reading and checking data</a></li>
+<li class="book-part">Appendices</li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/emilynordmann/introwrangling">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="reading-and-checking-data" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Reading and checking data<a class="anchor" aria-label="anchor" href="#reading-and-checking-data"><i class="fas fa-link"></i></a>
+</h1>
+<div id="loading-packages" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> Loading packages<a class="anchor" aria-label="anchor" href="#loading-packages"><i class="fas fa-link"></i></a>
+</h2>
+<p>To load the packages that have the functions we need for this tutorial, use the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function. Whilst you only need to install packages once, you need to load any packages you want to use with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> every time you start R or start a new session. When you load the <code>tidyverse</code>, you actually load several separate packages that are all part of the same collection and have been designed to work together. R will produce a message that tells you the names of the packages that have been loaded.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leeper/rio">rio</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sfirke/janitor">janitor</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="importing-data" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> Importing data<a class="anchor" aria-label="anchor" href="#importing-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now we have loaded the packages we need, we can read in the data files. As is often the case when coding in R, there are many different functions and packages one can use to load in data files. There are multiple functions that can be used to read in specific types of files and it is useful to use these if you have particularly difficult datasets where you may need to wrangle the data in ways that are very specific to the file type.</p>
+<p>For example, <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_tsv()</a></code> and <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> can be used to import <code>.tsv</code> and <code>.csv</code> files using the <code>readr</code> package that is loaded as part of the <code>tidyverse</code>, whilst <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> is used to read <code>.xlsx</code> files and <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_sav()</a></code> can be used to import <code>.sav</code> files from SPSS.</p>
+<p>However, an easier alternative for when you have data files that are relatively straightforward, is to use the <code>import</code> function from the <code>rio</code> package. <code>import</code> handle all of the above file types and many more - in the console, type <code><a href="https://rdrr.io/pkg/rio/man/import.html">?rio::import</a></code> to see the help documentation with a list of all file types it can handle.</p>
+<p>To load <code>all_words.csv</code> and <code>participant_demographics.csv</code>, we use the <code>import</code> function:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">all_words</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"data/all_words.csv"</span><span class="op">)</span></span>
+<span><span class="va">ppt_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"data/participant_demographics.csv"</span><span class="op">)</span></span></code></pre></div>
+<p>This code has created two objects <code>all_words</code> and <code>ppt_demo</code> into which you have read the data from the two files. This object will appear in the environment pane in the top right. Note that the name of the data file must be in quotation marks and the file extension (<code>.csv</code>) must also be included. If you receive the error <code>…does not exist in current working directory</code> it is highly likely that you have made a typo in the file name (remember R is case sensitive), have forgotten to include the file extension <code>.csv</code>, or that the data file you want to load is not stored in your project folder. If you get the error <code>could not find function</code> it means you have either not loaded the correct package (a common beginner error is to write the code, but not run it), or you have made a typo in the function name.</p>
+<p>Loading the individual participant trial data requires a slightly different approach. We could write out the same code 100 times, but that would be a waste of time and would likely lead to human error. Instead, we can use two functions to first create a list of all the files we want, load in that list, and then combine the files into a single data frame.</p>
+<p>The first step is to create an object named <code>file_list</code> using the function <code>list.files</code>. The <code>path</code> is where the data is stored, whilst the <code>pattern</code> is the rule the function should use to determine which files to list. There are multiple pattern options that would achieve the same outcome:</p>
+<ul>
+<li>
+<code>pattern = "participant_*</code> lists all files starts with the string <code>participant_</code>. The asterisk <code>*</code> is a wildcard character that can match any sequence of characters, so as long as it starts with <code>participant_</code> anything can come after it and it will be included.</li>
+<li>
+<code>pattern = "*.csv</code> lists all files that end with <code>.csv</code> and have any name before that.</li>
+<li>You can also remove the pattern argument which will just list all the files in the directory.</li>
+</ul>
+<p>In our case, all three will work but which one you choose will depend upon the organisation and naming conventions of your data.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># List all files in the directory starting with `participant_`</span></span>
+<span><span class="va">file_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"book/data/trial_data"</span>, </span>
+<span>                        pattern <span class="op">=</span> <span class="st">"participant_*"</span>, </span>
+<span>                        full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># List all files in the directory ending with `csv`</span></span>
+<span><span class="va">file_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"book/data/trial_data"</span>, </span>
+<span>                        pattern <span class="op">=</span> <span class="st">"*.csv"</span>, </span>
+<span>                        full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># List all files in the directory</span></span>
+<span><span class="va">file_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"book/data/trial_data"</span>, </span>
+<span>                        full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Next, we can use the <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_df()</a></code> function from the <code>tidyverse</code>. <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_df()</a></code> applies a function to each element of a list and then combines the results into a single data frame. In this case, it applies the function <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> to each file listed in <code>file_list</code>. If you needed to use a specific function like <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> or <code>read_excel()</code>, you could replace <code><a href="https://rdrr.io/pkg/rio/man/import.html">import()</a></code> with the function required.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Read and combine all files into a single data frame</span></span>
+<span><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="va">file_list</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_df</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="the-pipe" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> The pipe<a class="anchor" aria-label="anchor" href="#the-pipe"><i class="fas fa-link"></i></a>
+</h2>
+<p>The above code uses the <code>|&gt;</code> operator, otherwise known as the pipe. It takes the output from the left-hand side and uses it as the input for the expression on the right-hand side but may more usefully be translated as "and then". For example, the above code can be read as:</p>
+<ul>
+<li>Start with the object <code>file_list</code> <em>and then</em>;</li>
+<li>Use <code><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_df()</a></code> to apply the function <code>import</code> to each file in it.</li>
+</ul>
+<p>This pipe was introduced in R version 4.1.0 and is functionally very similar to the <code>%&gt;%</code> pipe which is part of the <code>tidyverse</code> and was used in Nordmann et al. (2022). The reason that we have switched to using the Base R pipe is that it does not require you to load the <code>tidyverse</code> (or any other package) to use and so is more generalisable to different approaches to coding.</p>
+</div>
+<div id="checking-your-data" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> Checking your data<a class="anchor" aria-label="anchor" href="#checking-your-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Whenever you import or create an object, the first thing you should do is check it to help identify what type of cleaning and processing you will need to conduct as, unless you are working with sanitized data, it is highly likely you will need to do some type of cleaning.</p>
+<div id="variable-names" class="section level3" number="2.4.1">
+<h3>
+<span class="header-section-number">2.4.1</span> Variable names<a class="anchor" aria-label="anchor" href="#variable-names"><i class="fas fa-link"></i></a>
+</h3>
+<p>First, let's have a look at the variable names in each file. R is case sensitive and it also doesn't like spaces in file names. As a researcher you are not always in control of how your data is entered, however, it is useful to keep the following conventions in mind:</p>
+<ul>
+<li>Variable names should be descriptive enough to convey their purpose or the data they contain and they should be concise but not so short that they become cryptic. For instance, <code>a</code> or <code>tmp</code> might be too vague, but <code>age</code> or <code>temp_data</code> are more descriptive.</li>
+<li>It is common to use all lowercase letters for variable names, if nothing else, it means you don't have to remember when and where you used a capital letter.</li>
+<li>R does not like spaces so best practice is to separate words with underscores which is known as "snake_case", e.g., <code>total_sales</code>. Although dots are allowed in variable names in R (e.g., <code>total.sales</code>), they can be confusing because dots have a specific meaning in some other uses. Therefore, it is better to avoid them in variable names.</li>
+<li>Do not use names for variables or objects that are reserved words in R, like <code>if</code>, <code>else</code>, <code>repeat</code>, <code>while</code>, <code>function</code>, etc. A common one to avoid is that many functions have an argument named <code>data</code> so name your objects <code>dat</code> or <code>my_data</code>, rather than just <code>data</code>.</li>
+<li>In addition to spaces and reserved names, avoid using special characters like @, #, $, %, ^, &amp;, *, etc., in variable names as they can be misinterpreted by R.</li>
+<li>Whatever naming convention you choose, be consistent throughout your code. Consistency helps in making the code more readable and maintainable.</li>
+</ul>
+</div>
+<div id="data-checking-functions" class="section level3" number="2.4.2">
+<h3>
+<span class="header-section-number">2.4.2</span> Data checking functions<a class="anchor" aria-label="anchor" href="#data-checking-functions"><i class="fas fa-link"></i></a>
+</h3>
+<p>There are a number of functions you can use to check your data but two common useful ones are <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>.</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> will print out the structure of your data file with a new row for each variable and is a useful function to keep in mind if you have a dataset with a large number of variables. <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> will give you the name of each variable (e.g., <code>Word</code>), the variable type (in this case all variables are <code>chr</code> or character type variables), and then display the first few observations of each variable.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">all_words</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">ppt_demo</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 'data.frame':    110 obs. of  3 variables:
+##  $ Word      : chr  "apple" "chair" "table" "grape" ...
+##  $ Word type : chr  "word" "word" "word" "word" ...
+##  $ trial_type: chr  "experimental" "experimental" "experimental" "experimental" ...
+## 'data.frame':    100 obs. of  3 variables:
+##  $ ID      : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ age     : int  30 29 19 30 29 20 31 28 24 27 ...
+##  $ language: int  1 2 2 2 2 1 1 2 2 1 ...</code></pre>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> also provides a list of all variables, although rather than providing the first few observations, gives summary statistics in the form of descriptive statistics.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## &lt; table of extent 0 x 0 &gt;</code></pre>
+</div>
+<div id="cleaning-variable-names" class="section level3" number="2.4.3">
+<h3>
+<span class="header-section-number">2.4.3</span> Cleaning variable names<a class="anchor" aria-label="anchor" href="#cleaning-variable-names"><i class="fas fa-link"></i></a>
+</h3>
+<p>We can see from both <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> that there are a few issues with our variable names. First, there is a mix of lowercase and capital letters (e.g., <code>Word</code>, <code>ID</code>) and <code>Word type</code> also contains a space.</p>
+<p>An incredibly useful function that should become part of your default data import process is <code><a href="https://sfirke.github.io/janitor/reference/clean_names.html">janitor::clean_names()</a></code>. This function transforms variable names so that they are all lowercase, are all unique in the dataset, and only contain characters, numbers, and letters. Using the pipe <code>|&gt;</code>, we can add on this function to the code that imports the data.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># load in the data and then clean the variable names</span></span>
+<span></span>
+<span><span class="va">all_words</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"data/all_words.csv"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ppt_demo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="st">"data/participant_demographics.csv"</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_data</span> <span class="op">&lt;-</span> <span class="va">file_list</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_df</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>If you run <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> on each object, you will now see that <code>ID</code> has become <code>id</code>, <code>Word type</code> has become <code>word_type</code>, and <code>Word</code> has become <code>word</code>. Ensuring that your variable names are consistent and easy to work with from the first step will make data wrangling much simpler and is not a step that should be overlooked.</p>
+</div>
+</div>
+<div id="data-types" class="section level2" number="2.5">
+<h2>
+<span class="header-section-number">2.5</span> Data types<a class="anchor" aria-label="anchor" href="#data-types"><i class="fas fa-link"></i></a>
+</h2>
+<p>Data can be numbers, words, true/false values or combinations of these. The basic data types in R are: numeric, character, and logical, as well as the special classes of factor and date/times. Factors are a particularly important data type for research data as they represent categorical variables, for example, experimental independent variables (such as the type of word in the current example) or demographic variables (such as language group that has two levels, monolingual and bilingual).</p>
+<p>If you ever want to know the data type of a specific variable, you can use the <code>typeof</code> function. The notation used below can be read as <code>object$variable</code>, that is, return the type of data the variable <code>langauge</code> is from the object <code>ppt_demo</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">ppt_demo</span><span class="op">$</span><span class="va">language</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## [1] "integer"</code></pre>
+<p>When you load in data, R will make an educated guess as to what type of data each variable is, and you can see what types it has assigned to all variables in an object by running <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> as above:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">all_words</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">ppt_demo</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">all_data</span><span class="op">)</span></span></code></pre></div>
+<p>Let's go through each variable in turn:</p>
+<ul>
+<li>
+<code>word</code> is imported as a character variable. This is correct because it is text data and doesn't represent any distinct categories; each word is different.</li>
+<li>
+<code>word_type</code> is also imported as a character variable. However, this text data represents two discrete categories, <code>word</code> and <code>nonword</code> and as such, it really should be a factor.</li>
+<li>
+<code>trial_type</code> also suffers from the same issue as <code>word_type</code>, it's a category with two levels <code>practice</code> and <code>experimental</code>.</li>
+<li>
+<code>id</code> is imported as an integer, or a numeric type. This isn't correct in that whilst it's a number, this number is being used a label, it has no numerical properties (participant 2 is not double participant 1).</li>
+<li>
+<code>age</code> is imported as an integer and thankfully, this is actually correct and needs no further action.</li>
+<li>
+<code>language</code> is imported as an integer. Language is coded as 1 = monolingual and 2= bilingual but R doesn't know this, all it can see is numbers. This will cause serious issues further down the analysis pipeline unless it if fixed.</li>
+<li>
+<code>accuracy</code> is imported as a character but should be a factor as it represents two distinct categories <code>correct</code> and <code>incorrect</code>.</li>
+<li>
+<code>rt</code> is imported as numeric and is correct.</li>
+<li>
+<code>trial_number</code> is imported as a integer and is correct.</li>
+</ul>
+</div>
+</div>
+
+
+
+<div class="chapter-nav">
+<div class="prev"><a href="introduction.html"><span class="header-section-number">1</span> Introduction</a></div>
+<div class="next"><a href="references.html">References</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#reading-and-checking-data"><span class="header-section-number">2</span> Reading and checking data</a></li>
+<li><a class="nav-link" href="#loading-packages"><span class="header-section-number">2.1</span> Loading packages</a></li>
+<li><a class="nav-link" href="#importing-data"><span class="header-section-number">2.2</span> Importing data</a></li>
+<li><a class="nav-link" href="#the-pipe"><span class="header-section-number">2.3</span> The pipe</a></li>
+<li>
+<a class="nav-link" href="#checking-your-data"><span class="header-section-number">2.4</span> Checking your data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#variable-names"><span class="header-section-number">2.4.1</span> Variable names</a></li>
+<li><a class="nav-link" href="#data-checking-functions"><span class="header-section-number">2.4.2</span> Data checking functions</a></li>
+<li><a class="nav-link" href="#cleaning-variable-names"><span class="header-section-number">2.4.3</span> Cleaning variable names</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#data-types"><span class="header-section-number">2.5</span> Data types</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/emilynordmann/introwrangling/blob/master/book/02-read.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/emilynordmann/introwrangling/edit/master/book/02-read.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    $(solveme[i]).after(" <span class='webex-icon'></span>");
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    $(selects[i]).after(" <span class='webex-icon'></span>");
+  }
+
+  update_total_correct();
+}
+
+</script><script>
+$( document ).ready(function() {
+  var cite = ' ';
+  var psyteachr = ' <a href="https://psyteachr.github.io/"><img src="images/logos/psyteachr_logo.png" style="height: 31px; color: white;" alt="psyTeachR: Reproducible Research" /></a>';
+  var license = ' <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/" target="blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"></a>';
+
+  $("footer div.row div:eq(1) p").html(
+    psyteachr + license + cite
+  );
+
+  // open rdrr links externally
+  $("a[href^='https://rdrr.io']").click(function(){
+    window.open(this.href);
+    return false;
+  });
+
+  // visible second sidebar in mobile
+  function move_sidebar() {
+    var w = window.innerWidth;
+    if (w < 992) {
+      $("#toc").appendTo($("#main-nav"));
+    } else {
+      $("#toc").appendTo($("div.sidebar-chapter"));
+    }
+  }
+  move_sidebar();
+  window.onresize = move_sidebar;
+});
+</script>
+
+</div>
+ <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Data wrangling using R for researchers who do not use R</strong>" was written by Emily Nordmann, Jill MacKay, Kasia Banas, Sandie Cleland, Lisa DeBruine. It was last built on 2023-10-09.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
